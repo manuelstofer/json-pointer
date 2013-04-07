@@ -79,6 +79,21 @@ describe('json-api', function () {
             dict['/bla/test'].should.equal('expected');
             dict['/abc'].should.equal('bla');
         });
+
+        it('should work with arrays', function () {
+            var obj = {
+                    "users": [
+                        {"name": "example 1"},
+                        {"name": "example 2"}
+                    ]
+                },
+                dict = pointer.dict(obj),
+                pointers = Object.keys(dict);
+
+            pointers.length.should.equal(2);
+            pointers[0].should.equal('/users/0/name');
+            pointers[1].should.equal('/users/1/name');
+        });
     });
 
     describe('#walk', function () {

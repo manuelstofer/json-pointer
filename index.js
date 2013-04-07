@@ -92,7 +92,7 @@ api.dict = function dict(obj) {
             if (type === '[object Object]' || type === '[object Array]') {
 
                 each(cur, function (value, key) {
-                    refTokens.push(key);
+                    refTokens.push(String(key));
                     mapObj(value);
                     refTokens.pop();
                 });
