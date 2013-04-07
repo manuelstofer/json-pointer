@@ -5,7 +5,7 @@
 
 Some utilities for JSON pointers described by RFC 6901
 
-json-pointer provides some additional stuff i needed to work with json pointers.
+Provides some additional stuff i needed but is not included in [node-jsonpointer](https://github.com/janl/node-jsonpointer)
 
 
 ## Installation
