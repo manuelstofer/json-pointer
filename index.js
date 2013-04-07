@@ -123,7 +123,7 @@ var api = module.exports = {
      * Escapes a reference token
      *
      * @param str
-     * @returns {XML}
+     * @returns {string}
      */
     escape: function (str) {
         return str.replace(/~/g, '~0').replace(/\//g, '~1');
@@ -133,7 +133,7 @@ var api = module.exports = {
      * Unescapes a reference token
      *
      * @param str
-     * @returns {XML}
+     * @returns {string}
      */
     unescape: function (str) {
         return str.replace(/~1/g, '/').replace(/~0/g, '~');
