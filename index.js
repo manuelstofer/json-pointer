@@ -29,7 +29,6 @@ function api(obj, pointer, value) {
     var wrapped = api.bind(api, obj);
 
     // Support for oo style
-    // pointer({}).set('/bla', 5);
     for (var name in api) {
         if (api.hasOwnProperty(name)) {
             wrapped[name] = api[name].bind(wrapped, obj);
