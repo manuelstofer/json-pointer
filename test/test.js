@@ -104,3 +104,32 @@ describe('json-api', function () {
     });
 });
 
+describe('convenience api wrapper', function() {
+    it('should call #get when passed 2 args', function() {
+        var obj = {
+            existing: 'expected'
+        };
+
+        pointer(obj, '/existing');
+        obj['existing'].should.equal('expected');
+
+    });
+    it('should call #set when passed 3 args', function() {
+        var obj = {
+            existing: 'bla'
+        };
+
+        pointer(obj, '/new-value/bla', 'expected');
+        obj['new-value'].bla.should.equal('expected');
+
+    });
+    it('should return a partially applied function when passed 1 arg', function() {
+        var obj = {
+            existing: 'bla'
+        };
+
+        var objPointer = pointer(obj);
+        objPointer('/new-value/bla', 'expected');
+        objPointer('/new-value').bla.should.equal('expected');
+    });
+});
