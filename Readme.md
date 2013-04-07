@@ -46,6 +46,14 @@ objPointer('/existing') // gets '/existing' from `obj`
 objPointer('/new-value/bla') // gets '/new-value/bla' from `obj`
 ```
 
+The wrapper supports chainable object oriented style
+
+```
+var obj = {anything: 'bla'};
+var objPointer = pointer(obj);
+objPointer.set('/example', 'bla').dict();
+```
+
 ### .get(object, pointer)
 
 Looks up a json pointer in an object
