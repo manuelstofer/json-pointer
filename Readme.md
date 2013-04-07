@@ -86,8 +86,8 @@ var obj = {
     bla: 'hello'
 };
 
-pointer.has(obj, '/bla');           // -> true
-pointer.has(obj, '/non/existing');  // -> false
+pointer.has(obj, '/bla');               // -> true
+pointer.has(obj, '/non/existing');      // -> false
 ```
 
 
@@ -97,8 +97,8 @@ pointer.has(obj, '/non/existing');  // -> false
 Escapes a reference token
 
 ```Javascript
-pointer.escape('hello~bla');           // -> 'hello~0bla'
-pointer.escape('hello/bla');           // -> 'hello~1bla'
+pointer.escape('hello~bla');            // -> 'hello~0bla'
+pointer.escape('hello/bla');            // -> 'hello~1bla'
 ```
 
 
@@ -108,8 +108,8 @@ pointer.escape('hello/bla');           // -> 'hello~1bla'
 Unescape a reference token
 
 ```Javascript
-pointer.unescape('hello~0bla');           // -> 'hello~bla'
-pointer.unescape('hello~1bla');           // -> 'hello/bla'
+pointer.unescape('hello~0bla');         // -> 'hello~bla'
+pointer.unescape('hello~1bla');         // -> 'hello/bla'
 ```
 
 
@@ -118,7 +118,7 @@ pointer.unescape('hello~1bla');           // -> 'hello/bla'
 Converts a json pointer into a array of reference tokens
 
 ```Javascript
-pointer.parse('/hello/bla');           // -> ['hello', 'bla']
+pointer.parse('/hello/bla');            // -> ['hello', 'bla']
 ```
 
 
@@ -127,5 +127,5 @@ pointer.parse('/hello/bla');           // -> ['hello', 'bla']
 Builds a json pointer from a array of reference tokens
 
 ```Javascript
-pointer.compile(['hello', 'bla']);           // -> '/hello/bla'
+pointer.compile(['hello', 'bla']);      // -> '/hello/bla'
 ```
