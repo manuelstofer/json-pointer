@@ -26,6 +26,25 @@ $ component install manuelstofer/json-pointer
 var pointer = require('json-pointer');
 ```
 
+### pointer(object, [pointer, [value]])
+
+Convenience wrapper around the api.
+
+Calls `.get` when called with an `object` and a `pointer`.
+Calls `.set` when also called with `value`.
+If only supplied `object`, returns a partially applied function, mapped to the object.
+
+
+```Javascript
+var obj = {
+    existing: 'bla'
+};
+
+pointer(obj, '/new-value/bla', 'expected'); // .set a property
+var objPointer = pointer(obj); // all api calls are now scoped to `obj`
+objPointer('/existing') // gets '/existing' from `obj`
+objPointer('/new-value/bla') // gets '/new-value/bla' from `obj`
+```
 
 ### .get(object, pointer)
 
