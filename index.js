@@ -1,7 +1,7 @@
 'use strict';
 
 var each = require('foreach');
-module.exports = api
+module.exports = api;
 
 
 /**
@@ -19,27 +19,36 @@ module.exports = api
 function api(obj, pointer, value) {
     // .set()
     if (arguments.length === 3) {
-        return api.set(obj, pointer, value)
+        return api.set(obj, pointer, value);
     }
     // .get()
     if (arguments.length === 2) {
-        return api.get(obj, pointer)
+        return api.get(obj, pointer);
     }
     // Return a partially applied function on `obj`.
-    return api.bind(api, obj)
+    return api.bind(api, obj);
 }
 
 
 /**
- * Lookup a json object in an object
+ * Lookup a json pointer in an object
  *
  * @param obj
  * @param pointer
  * @returns {*}
  */
 api.get = function get(obj, pointer) {
-    return api.lookup(obj, api.parse(pointer));
-}
+    var tok,
+        refTokens = api.parse(pointer);
+    while (refTokens.length) {
+        tok = refTokens.shift();
+        if (!obj.hasOwnProperty(tok)) {
+            throw new Error('Invalid reference token:' + tok);
+        }
+        obj = obj[tok];
+    }
+    return obj;
+};
 
 /**
  * Sets a value on an object
@@ -66,7 +75,7 @@ api.set = function set(obj, pointer, value) {
         obj = obj[tok];
     }
     obj[nextTok] = value;
-},
+};
 
 /**
  * Returns a (pointer -> value) dictionary for an object
@@ -95,7 +104,7 @@ api.dict = function dict(obj) {
 
     mapObj(obj);
     return results;
-}
+};
 
 /**
  * Iterates over an object
@@ -106,7 +115,7 @@ api.dict = function dict(obj) {
  */
 api.walk = function walk(obj, iterator) {
     each(api.dict(obj), iterator);
-}
+};
 
 /**
  * Tests if an object has a value for a json pointer
@@ -117,33 +126,12 @@ api.walk = function walk(obj, iterator) {
  */
 api.has = function has(obj, pointer) {
     try {
-        api.lookup(obj, api.parse(pointer));
+        api.get(obj, api.parse(pointer));
     } catch (e) {
         return false;
     }
     return true;
-}
-
-/**
- * Looks up a value at location described by a reference token array
- *
- * @not-so-public
- *
- * @param obj
- * @param refTokens
- * @returns {*}
- */
-api.lookup = function lookup(obj, refTokens) {
-    var tok;
-    while (refTokens.length) {
-        tok = refTokens.shift();
-        if (!obj.hasOwnProperty(tok)) {
-            throw new Error('Invalid reference token:' + tok);
-        }
-        obj = obj[tok];
-    }
-    return obj;
-}
+};
 
 /**
  * Escapes a reference token
@@ -153,7 +141,7 @@ api.lookup = function lookup(obj, refTokens) {
  */
 api.escape = function escape(str) {
     return str.replace(/~/g, '~0').replace(/\//g, '~1');
-}
+};
 
 /**
  * Unescapes a reference token
@@ -163,7 +151,7 @@ api.escape = function escape(str) {
  */
 api.unescape = function unescape(str) {
     return str.replace(/~1/g, '/').replace(/~0/g, '~');
-}
+};
 
 /**
  * Converts a json pointer into a array of reference tokens
@@ -175,7 +163,7 @@ api.parse = function parse(pointer) {
     if (pointer === '') { return []; }
     if (pointer.charAt(0) !== '/') { throw new Error('Invalid JSON pointer:' + pointer); }
     return pointer.substring(1).split(/\//).map(api.unescape);
-}
+};
 
 /**
  * Builds a json pointer from a array of reference tokens
@@ -185,5 +173,4 @@ api.parse = function parse(pointer) {
  */
 api.compile = function compile(refTokens) {
     return '/' + refTokens.map(api.escape).join('/');
-}
-
+};
