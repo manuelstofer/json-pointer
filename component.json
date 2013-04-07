@@ -1,0 +1,14 @@
+{
+    "name": "json-pointer",
+    "description": "Some utilities for JSON pointers described by RFC 6901",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {
+        "manuelstofer/foreach": "*"
+    },
+    "development": {},
+    "license": "MIT",
+    "scripts": [
+        "index.js"
+    ]
+}
