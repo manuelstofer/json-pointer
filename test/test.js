@@ -105,6 +105,33 @@ describe('json-api', function () {
         });
     });
 
+    describe('#has', function () {
+        it('should return true when the pointer exists', function () {
+            var obj = {
+                    bla: {
+                        test: 'expected'
+                    },
+                    foo: [['hello']],
+                    abc: 'bla'
+                };
+            pointer.has(obj, '/bla').should.be.true;
+            pointer.has(obj, '/abc').should.be.true;
+            pointer.has(obj, '/foo/0/0').should.be.true;
+            pointer.has(obj, '/bla/test').should.be.true;
+        });
+        it('should return false when the pointer does not exist', function () {
+            var obj = {
+                bla: {
+                    test: 'expected'
+                },
+                abc: 'bla'
+            };
+            pointer.has(obj, '/not-existing').should.be.false;
+            pointer.has(obj, '/not-existing/bla').should.be.false;
+            pointer.has(obj, '/test/1/bla').should.be.false;
+        });
+    });
+
     describe('#walk', function () {
         it('should iterate over an object', function () {
             pointer.walk({bla: {test: 'expected'}}, function (value, pointer) {
@@ -136,8 +163,8 @@ describe('convenience api wrapper', function() {
 
         pointer(obj, '/existing');
         obj['existing'].should.equal('expected');
-
     });
+
     it('should call #set when passed 3 args', function() {
         var obj = {
             existing: 'bla'
@@ -145,8 +172,8 @@ describe('convenience api wrapper', function() {
 
         pointer(obj, '/new-value/bla', 'expected');
         obj['new-value'].bla.should.equal('expected');
-
     });
+
     it('should return a partially applied function when passed 1 arg', function() {
         var obj = {
             existing: 'bla'

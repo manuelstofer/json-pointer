@@ -135,7 +135,7 @@ api.walk = function walk(obj, iterator) {
  */
 api.has = function has(obj, pointer) {
     try {
-        api.get(obj, api.parse(pointer));
+        api.get(obj, pointer);
     } catch (e) {
         return false;
     }
