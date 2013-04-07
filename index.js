@@ -26,7 +26,16 @@ function api(obj, pointer, value) {
         return api.get(obj, pointer);
     }
     // Return a partially applied function on `obj`.
-    return api.bind(api, obj);
+    var wrapped = api.bind(api, obj);
+
+    // Support for oo style
+    // pointer({}).set('/bla', 5);
+    for (var name in api) {
+        if (api.hasOwnProperty(name)) {
+            wrapped[name] = api[name].bind(wrapped, obj);
+        }
+    }
+    return wrapped;
 }
 
 
@@ -60,7 +69,7 @@ api.get = function get(obj, pointer) {
 api.set = function set(obj, pointer, value) {
     var refTokens = api.parse(pointer),
         tok,
-        nextTok;
+        nextTok = refTokens[0];
     while (refTokens.length > 1) {
         tok = refTokens.shift();
         nextTok = refTokens[0];
@@ -75,6 +84,7 @@ api.set = function set(obj, pointer, value) {
         obj = obj[tok];
     }
     obj[nextTok] = value;
+    return this;
 };
 
 /**

@@ -57,6 +57,15 @@ describe('json-api', function () {
             obj['new-value'].bla.should.equal('expected');
         });
 
+        it('should work on first level', function () {
+            var obj = {
+                existing: 'bla'
+            };
+
+            pointer.set(obj, '/first-level', 'expected');
+            obj['first-level'].should.equal('expected');
+        });
+
         it('should create arrays for numeric reference tokens and objects for other tokens', function () {
             var obj = [];
             pointer.set(obj, '/0/test/0', 'expected');
@@ -146,5 +155,15 @@ describe('convenience api wrapper', function() {
         var objPointer = pointer(obj);
         objPointer('/new-value/bla', 'expected');
         objPointer('/new-value').bla.should.equal('expected');
+    });
+
+    it('should support chainable oo-style', function() {
+        var obj = {
+                existing: 'bla'
+            },
+            objPointer = pointer(obj);
+
+        objPointer.set('/oo-style', 'bla').set('/example/0', 'bla');
+        objPointer.get('/oo-style').should.equal('bla');
     });
 });
