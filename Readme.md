@@ -99,6 +99,7 @@ pointer.dict(obj);
 ### .walk(object, iterator)
 
 Just like:
+
 ```Javascript
 each(pointer.dict(obj), iterator);
 ```
