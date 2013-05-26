@@ -56,7 +56,7 @@ objPointer.set('/example', 'bla').dict();
 
 ### .get(object, pointer)
 
-Looks up a json pointer in an object
+Looks up a JSON pointer in an object
 
 ```Javascript
 var obj = {
@@ -107,7 +107,7 @@ each(pointer.dict(obj), iterator);
 
 ### .has(object, pointer)
 
-Tests if an object has a value for a json pointer
+Tests if an object has a value for a JSON pointer
 
 ```Javascript
 var obj = {
@@ -143,7 +143,7 @@ pointer.unescape('hello~1bla');         // -> 'hello/bla'
 
 ### .parse(str)
 
-Converts a json pointer into a array of reference tokens
+Converts a JSON pointer into a array of reference tokens
 
 ```Javascript
 pointer.parse('/hello/bla');            // -> ['hello', 'bla']
