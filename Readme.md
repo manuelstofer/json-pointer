@@ -143,7 +143,7 @@ pointer.unescape('hello~1bla');         // -> 'hello/bla'
 
 ### .parse(str)
 
-Converts a JSON pointer into a array of reference tokens
+Converts a JSON pointer into an array of reference tokens
 
 ```Javascript
 pointer.parse('/hello/bla');            // -> ['hello', 'bla']
