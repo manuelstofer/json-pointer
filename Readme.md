@@ -34,7 +34,7 @@ Convenience wrapper around the api.
 
 Calls `.get` when called with an `object` and a `pointer`.
 Calls `.set` when also called with `value`.
-If only supplied `object`, returns a partially applied function, mapped to the object.
+If only `object` is supplied, it returns a partially applied function, mapped to the object.
 
 
 ```Javascript
