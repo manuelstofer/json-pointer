@@ -48,9 +48,10 @@ objPointer('/existing') // gets '/existing' from `obj`
 objPointer('/new-value/bla') // gets '/new-value/bla' from `obj`
 ```
 
-The wrapper supports chainable object oriented style
+The wrapper supports chainable object oriented style.
 
-```
+
+```Javascript
 var obj = {anything: 'bla'};
 var objPointer = pointer(obj);
 objPointer.set('/example', 'bla').dict();
@@ -58,7 +59,7 @@ objPointer.set('/example', 'bla').dict();
 
 ### .get(object, pointer)
 
-Looks up a JSON pointer in an object
+Looks up a JSON pointer in an object.
 
 ```Javascript
 var obj = {
@@ -73,7 +74,7 @@ pointer.get(obj, '/example/bla');
 
 ### .set(object, pointer, value)
 
-Sets a new value on object at the location described by pointer
+Sets a new value on object at the location described by pointer.
 
 ```Javascript
 var obj = {};
@@ -83,7 +84,7 @@ pointer.set(obj, '/example/bla', 'hello');
 
 ### .dict(object)
 
-Creates a dictionary object (pointer -> value)
+Creates a dictionary object (pointer -> value).
 
 ```Javascript
 var obj = {
@@ -109,7 +110,7 @@ each(pointer.dict(obj), iterator);
 
 ### .has(object, pointer)
 
-Tests if an object has a value for a JSON pointer
+Tests if an object has a value for a JSON pointer.
 
 ```Javascript
 var obj = {
@@ -124,7 +125,7 @@ pointer.has(obj, '/non/existing');      // -> false
 
 ### .escape(str)
 
-Escapes a reference token
+Escapes a reference token.
 
 ```Javascript
 pointer.escape('hello~bla');            // -> 'hello~0bla'
@@ -135,7 +136,7 @@ pointer.escape('hello/bla');            // -> 'hello~1bla'
 
 ### .unescape(str)
 
-Unescape a reference token
+Unescape a reference token.
 
 ```Javascript
 pointer.unescape('hello~0bla');         // -> 'hello~bla'
@@ -145,7 +146,7 @@ pointer.unescape('hello~1bla');         // -> 'hello/bla'
 
 ### .parse(str)
 
-Converts a JSON pointer into an array of reference tokens
+Converts a JSON pointer into an array of reference tokens.
 
 ```Javascript
 pointer.parse('/hello/bla');            // -> ['hello', 'bla']
@@ -154,7 +155,7 @@ pointer.parse('/hello/bla');            // -> ['hello', 'bla']
 
 ### .compile(str)
 
-Builds a json pointer from an array of reference tokens
+Builds a json pointer from an array of reference tokens.
 
 ```Javascript
 pointer.compile(['hello', 'bla']);      // -> '/hello/bla'
