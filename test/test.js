@@ -103,6 +103,18 @@ describe('json-api', function () {
             pointers[0].should.equal('/users/0/name');
             pointers[1].should.equal('/users/1/name');
         });
+
+        it('should work with other arrays', function () {
+            var obj = {
+                    bla : {
+                        bli : [4, 5, 6]
+                    }
+                },
+                dict = pointer.dict(obj);
+            dict['/bla/bli/0'].should.equal(4);
+            dict['/bla/bli/1'].should.equal(5);
+            dict['/bla/bli/2'].should.equal(6);
+        });
     });
 
     describe('#has', function () {
@@ -142,6 +154,11 @@ describe('json-api', function () {
     });
 
     describe('#parse', function () {
+        it('should work with top level path', function () {
+            pointer.parse('/bla')[0].should.equal('bla');
+            pointer.parse('/bla').length.should.equal(1);
+        });
+
         it('should convert a pointer to an array of reference tokens', function () {
             pointer.parse('/hello~0bla/test~1bla')[0].should.equal('hello~bla');
             pointer.parse('/hello~0bla/test~1bla')[1].should.equal('test/bla');
