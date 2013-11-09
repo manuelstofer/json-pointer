@@ -181,5 +181,6 @@ api.parse = function parse(pointer) {
  * @returns {string}
  */
 api.compile = function compile(refTokens) {
+    if (refTokens.length === 0) { return ''; }
     return '/' + refTokens.map(api.escape).join('/');
 };

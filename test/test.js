@@ -169,6 +169,20 @@ describe('json-api', function () {
         it('should build a json pointer from an array of reference tokens', function () {
             pointer.compile(['hello~bla', 'test/bla']).should.equal('/hello~0bla/test~1bla');
         });
+
+        describe('same after #parse and #compile', function () {
+            var pointers = [
+                '',
+                '/',
+                '/bla',
+                '/bla/'
+            ];
+            each(pointers, function (p) {
+                it('for "' + p + '"', function () {
+                    pointer.compile(pointer.parse(p)).should.equal(p);
+                });
+            });
+        });
     });
 });
 
@@ -179,7 +193,7 @@ describe('convenience api wrapper', function() {
         };
 
         pointer(obj, '/existing');
-        obj['existing'].should.equal('expected');
+        obj.existing.should.equal('expected');
     });
 
     it('should call #set when passed 3 args', function() {
@@ -193,10 +207,10 @@ describe('convenience api wrapper', function() {
 
     it('should return a partially applied function when passed 1 arg', function() {
         var obj = {
-            existing: 'bla'
-        };
+                existing: 'bla'
+            },
+            objPointer = pointer(obj);
 
-        var objPointer = pointer(obj);
         objPointer('/new-value/bla', 'expected');
         objPointer('/new-value').bla.should.equal('expected');
     });
