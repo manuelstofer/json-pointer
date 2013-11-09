@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/manuelstofer/json-pointer.png)](https://travis-ci.org/manuelstofer/json-pointer)
 
-
 Some utilities for JSON pointers described by RFC 6901
 
 Provides some additional stuff i needed but is not included in [node-jsonpointer](https://github.com/janl/node-jsonpointer)
@@ -21,6 +20,7 @@ $ npm install json-pointer
 ```bash
 $ component install manuelstofer/json-pointer
 ```
+
 
 ## API
 
@@ -50,12 +50,12 @@ objPointer('/new-value/bla') // gets '/new-value/bla' from `obj`
 
 The wrapper supports chainable object oriented style.
 
-
 ```Javascript
 var obj = {anything: 'bla'};
 var objPointer = pointer(obj);
 objPointer.set('/example', 'bla').dict();
 ```
+
 
 ### .get(object, pointer)
 
@@ -71,7 +71,6 @@ pointer.get(obj, '/example/bla');
 ```
 
 
-
 ### .set(object, pointer, value)
 
 Sets a new value on object at the location described by pointer.
@@ -79,6 +78,19 @@ Sets a new value on object at the location described by pointer.
 ```Javascript
 var obj = {};
 pointer.set(obj, '/example/bla', 'hello');
+```
+
+
+### .remove(object, pointer)
+
+Removes an attribute of object referenced by pointer
+
+```Javascript
+var obj = {
+    example: 'hello'
+};
+pointer.remove(obj, '/example');
+// obj -> {}
 ```
 
 
@@ -122,7 +134,6 @@ pointer.has(obj, '/non/existing');      // -> false
 ```
 
 
-
 ### .escape(str)
 
 Escapes a reference token.
@@ -131,7 +142,6 @@ Escapes a reference token.
 pointer.escape('hello~bla');            // -> 'hello~0bla'
 pointer.escape('hello/bla');            // -> 'hello~1bla'
 ```
-
 
 
 ### .unescape(str)
