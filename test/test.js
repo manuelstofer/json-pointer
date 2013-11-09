@@ -1,9 +1,11 @@
-/*global describe, it*/
+/*global describe, it, beforeEach*/
 if (typeof pointer === 'undefined') {
-    var pointer  = pointer || require('..'),
-        chai     = chai || require('chai'),
-        each     = each || require('foreach');
+    var pointer  = require('..'),
+        chai     = require('chai'),
+        each     = require('foreach');
 }
+
+var expect = chai.expect;
 
 
 chai.should();
@@ -11,38 +13,52 @@ chai.should();
 describe('json-api', function () {
     'use strict';
 
+    var rfcExample,
+        rfcValues;
+
+    function resetExamples() {
+        rfcExample = {
+            "foo":      ["bar", "baz"],
+            "":         0,
+            "a/b":      1,
+            "c%d":      2,
+            "e^f":      3,
+            "g|h":      4,
+            "i\\j":     5,
+            "k\"l":     6,
+            " ":        7,
+            "m~n":      8
+        };
+
+        rfcValues = {
+            "":         rfcExample,
+            "/foo":     rfcExample.foo,
+            "/foo/0":   "bar",
+            "/":        0,
+            "/a~1b":    1,
+            "/c%d":     2,
+            "/e^f":     3,
+            "/g|h":     4,
+            "/i\\j":    5,
+            "/k\"l":    6,
+            "/ ":       7,
+            "/m~0n":    8
+        };
+    }
+    resetExamples();
+    beforeEach(resetExamples);
+
     describe('#get', function () {
-        it('should work with the examples of the rfc', function () {
-            var data = {
-                    "foo":      ["bar", "baz"],
-                    "":         0,
-                    "a/b":      1,
-                    "c%d":      2,
-                    "e^f":      3,
-                    "g|h":      4,
-                    "i\\j":     5,
-                    "k\"l":     6,
-                    " ":        7,
-                    "m~n":      8
-                },
 
-                expected = {
-                    "":         data,
-                    "/foo":     data.foo,
-                    "/foo/0":   "bar",
-                    "/":        0,
-                    "/a~1b":    1,
-                    "/c%d":     2,
-                    "/e^f":     3,
-                    "/g|h":     4,
-                    "/i\\j":    5,
-                    "/k\"l":    6,
-                    "/ ":       7,
-                    "/m~0n":    8
-                };
+        it('should work for root element', function () {
+            var obj = {};
+            pointer.get(obj, '').should.equal(obj);
+        });
 
-            each(expected, function (expectedValue, p) {
-                pointer.get(data, p).should.equal(expectedValue);
+        each(Object.keys(rfcValues), function (p) {
+            it('should work for "' + p + '"', function () {
+                var expectedValue = rfcValues[p];
+                pointer.get(rfcExample, p).should.equal(expectedValue);
             });
         });
     });
@@ -72,6 +88,17 @@ describe('json-api', function () {
             Array.isArray(obj).should.be.true;
             Array.isArray(obj[0]).should.be.false;
             Array.isArray(obj[0].test).should.be.true;
+        });
+    });
+
+    describe('#remove', function () {
+        each(Object.keys(rfcValues), function (p) {
+            if (p !== '') {
+                it('should work for "' + p + '"', function () {
+                    pointer.remove(rfcExample, p);
+                    expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
+                });
+            }
         });
     });
 
@@ -169,18 +196,12 @@ describe('json-api', function () {
         it('should build a json pointer from an array of reference tokens', function () {
             pointer.compile(['hello~bla', 'test/bla']).should.equal('/hello~0bla/test~1bla');
         });
+    });
 
-        describe('same after #parse and #compile', function () {
-            var pointers = [
-                '',
-                '/',
-                '/bla',
-                '/bla/'
-            ];
-            each(pointers, function (p) {
-                it('for "' + p + '"', function () {
-                    pointer.compile(pointer.parse(p)).should.equal(p);
-                });
+    describe('#parse and then #compile pointer', function () {
+        each(Object.keys(rfcValues), function (p) {
+            it('should equal for "' + p + '"', function () {
+                pointer.compile(pointer.parse(p)).should.equal(p);
             });
         });
     });

@@ -51,7 +51,7 @@ api.get = function get(obj, pointer) {
     while (refTokens.length) {
         tok = refTokens.shift();
         if (!obj.hasOwnProperty(tok)) {
-            throw new Error('Invalid reference token:' + tok);
+            throw new Error('Invalid reference token: ' + tok);
         }
         obj = obj[tok];
     }
@@ -84,6 +84,21 @@ api.set = function set(obj, pointer, value) {
     }
     obj[nextTok] = value;
     return this;
+};
+
+/**
+ * Removes an attribute
+ *
+ * @param obj
+ * @param pointer
+ */
+api.remove = function (obj, pointer) {
+    var refTokens = api.parse(pointer);
+    var finalToken = refTokens.pop();
+    if (finalToken === undefined) {
+        throw new Error('Invalid JSON pointer for remove: "' + pointer + '"');
+    }
+    delete api.get(obj, api.compile(refTokens))[finalToken];
 };
 
 /**
@@ -170,7 +185,7 @@ api.unescape = function unescape(str) {
  */
 api.parse = function parse(pointer) {
     if (pointer === '') { return []; }
-    if (pointer.charAt(0) !== '/') { throw new Error('Invalid JSON pointer:' + pointer); }
+    if (pointer.charAt(0) !== '/') { throw new Error('Invalid JSON pointer: ' + pointer); }
     return pointer.substring(1).split(/\//).map(api.unescape);
 };
 
