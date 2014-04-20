@@ -16,7 +16,8 @@
         "mocha": "1.9.0",
         "chai": "*",
         "component": "*",
-        "mocha-phantomjs": "*"
+        "mocha-phantomjs": "*",
+        "phantomjs": "*"
     },
     "scripts": {
         "test": "make test"
