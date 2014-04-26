@@ -16,7 +16,7 @@ module.exports = api;
  * @returns {*}
  */
 
-function api(obj, pointer, value) {
+function api (obj, pointer, value) {
     // .set()
     if (arguments.length === 3) {
         return api.set(obj, pointer, value);
@@ -45,7 +45,7 @@ function api(obj, pointer, value) {
  * @param pointer
  * @returns {*}
  */
-api.get = function get(obj, pointer) {
+api.get = function get (obj, pointer) {
     var tok,
         refTokens = api.parse(pointer);
     while (refTokens.length) {
@@ -65,7 +65,7 @@ api.get = function get(obj, pointer) {
  * @param pointer
  * @param value
  */
-api.set = function set(obj, pointer, value) {
+api.set = function set (obj, pointer, value) {
     var refTokens = api.parse(pointer),
         tok,
         nextTok = refTokens[0];
@@ -105,28 +105,14 @@ api.remove = function (obj, pointer) {
  * Returns a (pointer -> value) dictionary for an object
  *
  * @param obj
- * @returns {{}}
+ * @param {function} descend
+ * @returns {}
  */
-api.dict = function dict(obj) {
-    var results = {},
-        refTokens = [],
-
-        mapObj = function (cur) {
-            var type = Object.prototype.toString.call(cur);
-            if (type === '[object Object]' || type === '[object Array]') {
-
-                each(cur, function (value, key) {
-                    refTokens.push(String(key));
-                    mapObj(value);
-                    refTokens.pop();
-                });
-
-            } else {
-                results[api.compile(refTokens)] = cur;
-            }
-        };
-
-    mapObj(obj);
+api.dict = function dict (obj, descend) {
+    var results = {};
+    api.walk(obj, function (value, pointer) {
+        results[pointer] = value;
+    }, descend);
     return results;
 };
 
@@ -135,10 +121,28 @@ api.dict = function dict(obj) {
  * Iterator: function (value, pointer) {}
  *
  * @param obj
- * @param iterator
+ * @param {function} iterator
+ * @param {function} descend
  */
-api.walk = function walk(obj, iterator) {
-    each(api.dict(obj), iterator);
+api.walk = function walk (obj, iterator, descend) {
+    var refTokens = [];
+
+    descend = descend || function (value) {
+        var type = Object.prototype.toString.call(value);
+        return type === '[object Object]' || type === '[object Array]';
+    };
+
+    (function next (cur) {
+        each(cur, function (value, key) {
+            refTokens.push(String(key));
+            if (descend(value)) {
+                next(value);
+            } else {
+                iterator(value, api.compile(refTokens));
+            }
+            refTokens.pop();
+        });
+    }(obj));
 };
 
 /**
@@ -148,7 +152,7 @@ api.walk = function walk(obj, iterator) {
  * @param pointer
  * @returns {boolean}
  */
-api.has = function has(obj, pointer) {
+api.has = function has (obj, pointer) {
     try {
         api.get(obj, pointer);
     } catch (e) {
@@ -163,7 +167,7 @@ api.has = function has(obj, pointer) {
  * @param str
  * @returns {string}
  */
-api.escape = function escape(str) {
+api.escape = function escape (str) {
     return str.replace(/~/g, '~0').replace(/\//g, '~1');
 };
 
@@ -173,7 +177,7 @@ api.escape = function escape(str) {
  * @param str
  * @returns {string}
  */
-api.unescape = function unescape(str) {
+api.unescape = function unescape (str) {
     return str.replace(/~1/g, '/').replace(/~0/g, '~');
 };
 
@@ -183,7 +187,7 @@ api.unescape = function unescape(str) {
  * @param pointer
  * @returns {Array}
  */
-api.parse = function parse(pointer) {
+api.parse = function parse (pointer) {
     if (pointer === '') { return []; }
     if (pointer.charAt(0) !== '/') { throw new Error('Invalid JSON pointer: ' + pointer); }
     return pointer.substring(1).split(/\//).map(api.unescape);
@@ -195,7 +199,7 @@ api.parse = function parse(pointer) {
  * @param refTokens
  * @returns {string}
  */
-api.compile = function compile(refTokens) {
+api.compile = function compile (refTokens) {
     if (refTokens.length === 0) { return ''; }
     return '/' + refTokens.map(api.escape).join('/');
 };
