@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "keywords": [],
     "dependencies": {
-        "manuelstofer/foreach": "*"
+        "manuelstofer/foreach": "2.0.4"
     },
     "development": {},
     "license": "MIT",

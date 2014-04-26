@@ -1,43 +1,25 @@
 {
-    "name": "json-pointer",
-    "description": "Some utilities for JSON pointers described by RFC 6901",
-    "version": "0.1.0",
-    "author": "Manuel Stofer <manuel@takimata.ch>",
-    "license": "MIT",
-    "dependencies": {
-        "foreach": "*"
-    },
-    "homepage": "https://github.com/manuelstofer/json-pointer",
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/manuelstofer/json-pointer.git"
-    },
-    "devDependencies": {
-        "mocha": "1.9.0",
-        "chai": "*",
-        "component": "*",
-        "mocha-phantomjs": "*",
-        "phantomjs": "*"
-    },
-    "scripts": {
-        "test": "make test"
-    },
-    "testling": {
-        "harness" : "mocha",
-        "files": "test/*.js",
-        "browsers": [
-            "iexplore/6.0..latest",
-            "firefox/3.0",
-            "firefox/15.0..latest",
-            "firefox/nightly",
-            "chrome/4.0",
-            "chrome/22.0..latest",
-            "chrome/canary",
-            "opera/10.0..latest",
-            "opera/next",
-            "safari/5.0.5..latest",
-            "ipad/6.0..latest",
-            "iphone/6.0..latest"
-        ]
-    }
+  "name": "json-pointer",
+  "description": "Some utilities for JSON pointers described by RFC 6901",
+  "version": "0.1.0",
+  "author": "Manuel Stofer <manuel@takimata.ch>",
+  "license": "MIT",
+  "dependencies": {
+    "component": "^1.0.0-rc5",
+    "foreach": "^2.0.4",
+    "mocha-phantomjs": "^3.3.2"
+  },
+  "homepage": "https://github.com/manuelstofer/json-pointer",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/manuelstofer/json-pointer.git"
+  },
+  "devDependencies": {
+    "mocha": "^1.9.0",
+    "chai": "^1.9.1",
+    "phantomjs": "^1.9.7-4"
+  },
+  "scripts": {
+    "test": "make test"
+  }
 }
