@@ -113,14 +113,12 @@ api.dict = function dict(obj) {
 
         mapObj = function (cur) {
             var type = Object.prototype.toString.call(cur);
-            if (type === '[object Object]' || type === '[object Array]') {
-
+            if (type === '[object Object]' || ( type === '[object Array]' && cur.length ) ) {
                 each(cur, function (value, key) {
                     refTokens.push(String(key));
                     mapObj(value);
                     refTokens.pop();
                 });
-
             } else {
                 results[api.compile(refTokens)] = cur;
             }

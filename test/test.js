@@ -108,12 +108,16 @@ describe('json-api', function () {
                     bla: {
                         test: 'expected'
                     },
-                    abc: 'bla'
+                    abc: 'bla',
+                    cde: [ ],
+                    efg: [ { xyz: [ ] } ]
                 },
                 dict = pointer.dict(obj);
 
             dict['/bla/test'].should.equal('expected');
             dict['/abc'].should.equal('bla');
+            dict['/cde'].should.eql( [ ] );
+            dict['/efg/0/xyz'].should.eql( [ ] );
         });
 
         it('should work with arrays', function () {
