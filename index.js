@@ -168,7 +168,7 @@ api.has = function has (obj, pointer) {
  * @returns {string}
  */
 api.escape = function escape (str) {
-    return str.replace(/~/g, '~0').replace(/\//g, '~1');
+    return str.toString().replace(/~/g, '~0').replace(/\//g, '~1');
 };
 
 /**
