@@ -1,12 +1,11 @@
 install:
-	@npm install
 	@component install
 
 build: install
 	@echo build ...
 	@component build
 
-test: install build
+test:
 	@echo test
 	@./node_modules/.bin/mocha \
 		--require chai \
