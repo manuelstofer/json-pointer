@@ -1,10 +1,10 @@
 install:
 	@npm install
-	@./node_modules/.bin/component-install
+	@component install
 
 build: install
 	@echo build ...
-	@./node_modules/.bin/component-build
+	@component build
 
 test: install build
 	@echo test
@@ -12,7 +12,8 @@ test: install build
 		--require chai \
 		--reporter spec
 
+test-phantom: install build
 	@echo test in browser
-	@./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/test-runner.html
+	@mocha-phantomjs test/test-runner.html
 
 .PHONY: test build

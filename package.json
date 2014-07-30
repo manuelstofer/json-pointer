@@ -5,9 +5,7 @@
   "author": "Manuel Stofer <manuel@takimata.ch>",
   "license": "MIT",
   "dependencies": {
-    "component": "^1.0.0-rc5",
-    "foreach": "^2.0.4",
-    "mocha-phantomjs": "^3.3.2"
+    "foreach": "^2.0.4"
   },
   "homepage": "https://github.com/manuelstofer/json-pointer",
   "repository": {
@@ -16,8 +14,7 @@
   },
   "devDependencies": {
     "mocha": "^1.9.0",
-    "chai": "^1.9.1",
-    "phantomjs": "^1.9.7-4"
+    "chai": "^1.9.1"
   },
   "scripts": {
     "test": "make test"
