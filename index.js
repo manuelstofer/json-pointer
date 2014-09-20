@@ -127,7 +127,7 @@ api.dict = function dict (obj, descend) {
 api.walk = function walk (obj, iterator, descend) {
     var refTokens = [];
 
-    descend = descend || function (value) {
+    descend = descend || function (value) {
         var type = Object.prototype.toString.call(value);
         return type === '[object Object]' || type === '[object Array]';
     };
