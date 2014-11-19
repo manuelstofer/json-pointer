@@ -71,16 +71,22 @@ api.set = function set (obj, pointer, value) {
         nextTok = refTokens[0];
     while (refTokens.length > 1) {
         tok = refTokens.shift();
+        if (tok === '-' && Array.isArray(obj)) {
+          tok = obj.length;
+        }
         nextTok = refTokens[0];
 
         if (!obj.hasOwnProperty(tok)) {
-            if (nextTok.match(/^\d+$/)) {
+            if (nextTok.match(/^(\d+|-)$/)) {
                 obj[tok] = [];
             } else {
                 obj[tok] = {};
             }
         }
         obj = obj[tok];
+    }
+    if (nextTok === '-' && Array.isArray(obj)) {
+      nextTok = obj.length;
     }
     obj[nextTok] = value;
     return this;
