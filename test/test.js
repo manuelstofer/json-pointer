@@ -89,6 +89,16 @@ describe('json-api', function () {
             Array.isArray(obj[0]).should.be.false;
             Array.isArray(obj[0].test).should.be.true;
         });
+
+        it('should create arrays for - and reference the (nonexistent) member after the last array element.', function () {
+            var obj = ['foo'];
+            pointer.set(obj, '/-/test/-', 'expected');
+            Array.isArray(obj).should.be.true;
+            obj.should.have.length(2);
+            Array.isArray(obj[1].test).should.be.true;
+            obj[1].test.should.have.length(1);
+            obj[1].test[0].should.equal('expected');
+        });
     });
 
     describe('#remove', function () {
