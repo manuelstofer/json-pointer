@@ -135,7 +135,7 @@ pointer.parse('/hello/bla');            // -> ['hello', 'bla']
 ```
 
 
-### .compile(str)
+### .compile(array)
 
 Builds a json pointer from an array of reference tokens.
 
