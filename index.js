@@ -50,7 +50,7 @@ api.get = function get (obj, pointer) {
         refTokens = api.parse(pointer);
     while (refTokens.length) {
         tok = refTokens.shift();
-        if (!obj.hasOwnProperty(tok)) {
+        if (!(tok in obj)) {
             throw new Error('Invalid reference token: ' + tok);
         }
         obj = obj[tok];
@@ -76,7 +76,7 @@ api.set = function set (obj, pointer, value) {
         }
         nextTok = refTokens[0];
 
-        if (!obj.hasOwnProperty(tok)) {
+        if (!(tok in obj)) {
             if (nextTok.match(/^(\d+|-)$/)) {
                 obj[tok] = [];
             } else {
