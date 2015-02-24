@@ -61,9 +61,17 @@ describe('json-api', function () {
                 pointer.get(rfcExample, p).should.equal(expectedValue);
             });
         });
+
+        it('should work for with inherited properties', function () {
+            function O () {}
+            O.prototype.x = 10;
+            pointer.get(new O, '/x').should.equal(10);
+            pointer.get(Object.create({ x: 10 }), '/x').should.equal(10)
+        });
     });
 
     describe('#set', function () {
+
         it('should set a value on an object', function () {
             var obj = {
                 existing: 'bla'
@@ -113,6 +121,7 @@ describe('json-api', function () {
     });
 
     describe('#dict', function () {
+
         it('should return a dictionary (pointer -> value)', function () {
             var obj = {
                     bla: {
@@ -155,6 +164,7 @@ describe('json-api', function () {
     });
 
     describe('#has', function () {
+
         it('should return true when the pointer exists', function () {
             var obj = {
                     bla: {
@@ -168,6 +178,7 @@ describe('json-api', function () {
             pointer.has(obj, '/foo/0/0').should.be.true;
             pointer.has(obj, '/bla/test').should.be.true;
         });
+
         it('should return false when the pointer does not exist', function () {
             var obj = {
                 bla: {
@@ -182,6 +193,7 @@ describe('json-api', function () {
     });
 
     describe('#walk', function () {
+
         it('should iterate over an object', function () {
             pointer.walk({bla: {test: 'expected'}}, function (value, pointer) {
                 pointer.should.equal('/bla/test');
@@ -191,6 +203,7 @@ describe('json-api', function () {
     });
 
     describe('#parse', function () {
+
         it('should work with top level path', function () {
             pointer.parse('/bla')[0].should.equal('bla');
             pointer.parse('/bla').length.should.equal(1);
@@ -203,6 +216,7 @@ describe('json-api', function () {
     });
 
     describe('#compile', function () {
+
         it('should build a json pointer from an array of reference tokens', function () {
             pointer.compile(['hello~bla', 'test/bla']).should.equal('/hello~0bla/test~1bla');
         });
@@ -210,6 +224,7 @@ describe('json-api', function () {
 
     describe('#parse and then #compile pointer', function () {
         each(Object.keys(rfcValues), function (p) {
+
             it('should equal for "' + p + '"', function () {
                 pointer.compile(pointer.parse(p)).should.equal(p);
             });
@@ -218,6 +233,7 @@ describe('json-api', function () {
 });
 
 describe('convenience api wrapper', function() {
+
     it('should call #get when passed 2 args', function() {
         var obj = {
             existing: 'expected'
