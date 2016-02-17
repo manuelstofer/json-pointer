@@ -50,7 +50,7 @@ api.get = function get (obj, pointer) {
         refTokens = api.parse(pointer);
     while (refTokens.length) {
         tok = refTokens.shift();
-        if (!(tok in obj)) {
+        if (!(typeof obj == 'object' && tok in obj)) {
             throw new Error('Invalid reference token: ' + tok);
         }
         obj = obj[tok];
