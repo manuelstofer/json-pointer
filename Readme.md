@@ -33,6 +33,8 @@ var pointer = require('json-pointer');
 
 Looks up a JSON pointer in an object.
 
+Array of reference tokens, e.g. returned by api.parse, can be passed as a pointer to .get, .set and .remove methods.
+
 ```Javascript
 var obj = {
     example: {
@@ -55,7 +57,7 @@ pointer.set(obj, '/example/bla', 'hello');
 
 ### .remove(object, pointer)
 
-Removes an attribute of object referenced by pointer
+Removes an attribute of object referenced by pointer.
 
 ```Javascript
 var obj = {
