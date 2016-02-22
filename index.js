@@ -10,8 +10,8 @@ module.exports = api;
  * Calls `.set` when also called with `value`.
  * If only supplied `object`, returns a partially applied function, mapped to the object.
  *
- * @param obj
- * @param pointer
+ * @param {Object} obj
+ * @param {String|Array} pointer
  * @param value
  * @returns {*}
  */
@@ -41,13 +41,13 @@ function api (obj, pointer, value) {
 /**
  * Lookup a json pointer in an object
  *
- * @param obj
- * @param pointer
+ * @param {Object} obj
+ * @param {String|Array} pointer
  * @returns {*}
  */
 api.get = function get (obj, pointer) {
     var tok,
-        refTokens = api.parse(pointer);
+        refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
     while (refTokens.length) {
         tok = refTokens.shift();
         if (!(typeof obj == 'object' && tok in obj)) {
@@ -61,12 +61,12 @@ api.get = function get (obj, pointer) {
 /**
  * Sets a value on an object
  *
- * @param obj
- * @param pointer
+ * @param {Object} obj
+ * @param {String|Array} pointer
  * @param value
  */
 api.set = function set (obj, pointer, value) {
-    var refTokens = api.parse(pointer),
+    var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer),
         tok,
         nextTok = refTokens[0];
     while (refTokens.length > 1) {
@@ -95,11 +95,11 @@ api.set = function set (obj, pointer, value) {
 /**
  * Removes an attribute
  *
- * @param obj
- * @param pointer
+ * @param {Object} obj
+ * @param {String|Array} pointer
  */
 api.remove = function (obj, pointer) {
-    var refTokens = api.parse(pointer);
+    var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
     var finalToken = refTokens.pop();
     if (finalToken === undefined) {
         throw new Error('Invalid JSON pointer for remove: "' + pointer + '"');
