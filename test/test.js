@@ -1,8 +1,9 @@
 /*global describe, it, beforeEach*/
 if (typeof pointer === 'undefined') {
-    var pointer  = require('..'),
-        chai     = require('chai'),
-        each     = require('foreach');
+    var pointer   = require('..'),
+        chai      = require('chai'),
+        each      = require('foreach'),
+        immutable = require('seamless-immutable');
 }
 
 var expect = chai.expect;
@@ -84,7 +85,7 @@ describe('json-api', function () {
         });
 
         each(Object.keys(rfcParsed), function (p) {
-            var tokens = rfcParsed[p].tokens;
+            var tokens = immutable(rfcParsed[p].tokens);
             it('should work for ' + JSON.stringify(tokens), function () {
                 var expectedValue = rfcParsed[p].value;
                 pointer.get(rfcExample, tokens).should.equal(expectedValue);
@@ -115,7 +116,7 @@ describe('json-api', function () {
                 existing: 'bla'
             };
 
-            pointer.set(obj, ['new-value', 'bla'], 'expected');
+            pointer.set(obj, immutable(['new-value', 'bla']), 'expected');
             obj['new-value'].bla.should.equal('expected');
         });
 
@@ -133,7 +134,7 @@ describe('json-api', function () {
                 existing: 'bla'
             };
 
-            pointer.set(obj, ['first-level'], 'expected');
+            pointer.set(obj, immutable(['first-level']), 'expected');
             obj['first-level'].should.equal('expected');
         });
 
@@ -147,7 +148,7 @@ describe('json-api', function () {
 
         it('should create arrays for numeric reference tokens and objects for other tokens when tokens are passed', function () {
             var obj = [];
-            pointer.set(obj, ['0', 'test', '0'], 'expected');
+            pointer.set(obj, immutable(['0', 'test', '0']), 'expected');
             Array.isArray(obj).should.be.true;
             Array.isArray(obj[0]).should.be.false;
             Array.isArray(obj[0].test).should.be.true;
@@ -165,7 +166,7 @@ describe('json-api', function () {
 
         it('should create arrays for - and reference the (nonexistent) member after the last array element  when tokens are passed.', function () {
             var obj = ['foo'];
-            pointer.set(obj, ['-', 'test', '-'], 'expected');
+            pointer.set(obj, immutable(['-', 'test', '-']), 'expected');
             Array.isArray(obj).should.be.true;
             obj.should.have.length(2);
             Array.isArray(obj[1].test).should.be.true;
@@ -187,9 +188,9 @@ describe('json-api', function () {
         each(Object.keys(rfcParsed), function (p) {
             if (p !== '') {
                 it('should work for ' + JSON.stringify(rfcParsed[p].tokens), function () {
-                    pointer.remove(rfcExample, rfcParsed[p].tokens);
+                    pointer.remove(rfcExample, immutable(rfcParsed[p].tokens));
                     expect(function() {
-                        pointer.get(pointer, rfcExample, rfcParsed[p].tokens);
+                        pointer.get(pointer, rfcExample, immutable(rfcParsed[p].tokens));
                     }).to.throw(Error);
                 });
             }
@@ -263,10 +264,10 @@ describe('json-api', function () {
                     foo: [['hello']],
                     abc: 'bla'
                 };
-            pointer.has(obj, ['bla']).should.be.true;
-            pointer.has(obj, ['abc']).should.be.true;
-            pointer.has(obj, ['foo', '0', '0']).should.be.true;
-            pointer.has(obj, ['bla', 'test']).should.be.true;
+            pointer.has(obj, immutable(['bla'])).should.be.true;
+            pointer.has(obj, immutable(['abc'])).should.be.true;
+            pointer.has(obj, immutable(['foo', '0', '0'])).should.be.true;
+            pointer.has(obj, immutable(['bla', 'test'])).should.be.true;
         });
 
         it('should return false when the pointer does not exist', function () {
@@ -289,10 +290,10 @@ describe('json-api', function () {
                 },
                 abc: 'bla'
             };
-            pointer.has(obj, ['not-existing']).should.be.false;
-            pointer.has(obj, ['not-existing', 'bla']).should.be.false;
-            pointer.has(obj, ['test', '1', 'bla']).should.be.false;
-            pointer.has(obj, ['bla', 'test1']).should.be.false;
+            pointer.has(obj, immutable(['not-existing'])).should.be.false;
+            pointer.has(obj, immutable(['not-existing', 'bla'])).should.be.false;
+            pointer.has(obj, immutable(['test', '1', 'bla'])).should.be.false;
+            pointer.has(obj, immutable(['bla', 'test1'])).should.be.false;
         });
     });
 
@@ -330,7 +331,7 @@ describe('json-api', function () {
         each(Object.keys(rfcValues), function (p) {
 
             it('should equal for "' + p + '"', function () {
-                pointer.compile(pointer.parse(p)).should.equal(p);
+                pointer.compile(immutable(pointer.parse(p))).should.equal(p);
             });
         });
     });
@@ -352,7 +353,7 @@ describe('convenience api wrapper', function() {
             existing: 'expected'
         };
 
-        pointer(obj, ['existing']);
+        pointer(obj, immutable(['existing']));
         obj.existing.should.equal('expected');
     });
 
@@ -370,7 +371,7 @@ describe('convenience api wrapper', function() {
             existing: 'bla'
         };
 
-        pointer(obj, ['new-value', 'bla'], 'expected');
+        pointer(obj, immutable(['new-value', 'bla']), 'expected');
         obj['new-value'].bla.should.equal('expected');
     });
 
@@ -403,8 +404,8 @@ describe('convenience api wrapper', function() {
             },
             objPointer = pointer(obj);
 
-        objPointer.set(['oo-style'], 'bla').set(['example', '0'], 'bla2');
-        objPointer.get(['oo-style']).should.equal('bla');
-        objPointer.get(['example', '0']).should.equal('bla2');
+        objPointer.set(immutable(['oo-style']), 'bla').set(['example', '0'], 'bla2');
+        objPointer.get(immutable(['oo-style'])).should.equal('bla');
+        objPointer.get(immutable(['example', '0'])).should.equal('bla2');
     });
 });
