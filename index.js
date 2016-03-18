@@ -46,10 +46,10 @@ function api (obj, pointer, value) {
  * @returns {*}
  */
 api.get = function get (obj, pointer) {
-    var tok,
-        refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
-    while (refTokens.length) {
-        tok = refTokens.shift();
+    var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
+
+    for (var i = 0; i < refTokens.length; ++i) {
+        var tok = refTokens[i];
         if (!(typeof obj == 'object' && tok in obj)) {
             throw new Error('Invalid reference token: ' + tok);
         }
@@ -67,14 +67,14 @@ api.get = function get (obj, pointer) {
  */
 api.set = function set (obj, pointer, value) {
     var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer),
-        tok,
-        nextTok = refTokens[0];
-    while (refTokens.length > 1) {
-        tok = refTokens.shift();
+      nextTok = refTokens[0];
+
+    for (var i = 0; i < refTokens.length - 1; ++i) {
+        var tok = refTokens[i];
         if (tok === '-' && Array.isArray(obj)) {
           tok = obj.length;
         }
-        nextTok = refTokens[0];
+        nextTok = refTokens[i + 1];
 
         if (!(tok in obj)) {
             if (nextTok.match(/^(\d+|-)$/)) {
@@ -100,11 +100,11 @@ api.set = function set (obj, pointer, value) {
  */
 api.remove = function (obj, pointer) {
     var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
-    var finalToken = refTokens.pop();
+    var finalToken = refTokens[refTokens.length -1];
     if (finalToken === undefined) {
         throw new Error('Invalid JSON pointer for remove: "' + pointer + '"');
     }
-    delete api.get(obj, api.compile(refTokens))[finalToken];
+    delete api.get(obj, refTokens.slice(0, -1))[finalToken];
 };
 
 /**
