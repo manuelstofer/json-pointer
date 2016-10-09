@@ -104,7 +104,18 @@ api.remove = function (obj, pointer) {
     if (finalToken === undefined) {
         throw new Error('Invalid JSON pointer for remove: "' + pointer + '"');
     }
-    delete api.get(obj, refTokens.slice(0, -1))[finalToken];
+
+    var parent = api.get(obj, refTokens.slice(0, -1));
+    if (Array.isArray(parent)) {
+      var index = +finalToken;
+      if (finalToken === '' && isNaN(index)) {
+        throw new Error('Invalid array index: "' + finalToken + '"');
+      }
+
+      Array.prototype.splice.call(parent, index, 1);
+    } else {
+      delete parent[finalToken];
+    }
 };
 
 /**
