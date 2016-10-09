@@ -190,7 +190,7 @@ describe('json-api', function () {
                 it('should work for ' + JSON.stringify(rfcParsed[p].tokens), function () {
                     pointer.remove(rfcExample, immutable(rfcParsed[p].tokens));
                     expect(function() {
-                        pointer.get(pointer, rfcExample, immutable(rfcParsed[p].tokens));
+                        pointer.get(rfcExample, immutable(rfcParsed[p].tokens));
                     }).to.throw(Error);
                 });
             }
