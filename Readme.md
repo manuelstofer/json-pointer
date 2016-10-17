@@ -15,12 +15,6 @@ Provides some additional stuff i needed but is not included in [node-jsonpointer
 $ npm install json-pointer
 ```
 
-[component](https://github.com/component/component)
-
-```bash
-$ component install manuelstofer/json-pointer
-```
-
 
 ## API
 
