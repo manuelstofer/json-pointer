@@ -177,24 +177,49 @@ describe('json-api', function () {
 
     describe('#remove', function () {
         each(Object.keys(rfcValues), function (p) {
-            if (p !== '') {
-                it('should work for "' + p + '"', function () {
-                    pointer.remove(rfcExample, p);
-                    expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
-                });
-            }
+            if (p === '' || p === '/foo/0') return;
+
+            it('should work for "' + p + '"', function () {
+                pointer.remove(rfcExample, p);
+                expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
+            });
+        });
+
+        it('should work for "/foo/0"', function () {
+            var p = '/foo/0';
+            pointer.remove(rfcExample, p);
+            expect(pointer.get(rfcExample, p)).to.equal('baz');
+        });
+
+        it('should work for "/foo/1"', function () {
+            var p = '/foo/1';
+            pointer.remove(rfcExample, p);
+            expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
         });
 
         each(Object.keys(rfcParsed), function (p) {
-            if (p !== '') {
-                it('should work for ' + JSON.stringify(rfcParsed[p].tokens), function () {
-                    pointer.remove(rfcExample, immutable(rfcParsed[p].tokens));
-                    expect(function() {
-                        pointer.get(pointer, rfcExample, immutable(rfcParsed[p].tokens));
-                    }).to.throw(Error);
-                });
-            }
+            if (p === '' || p === '/foo/0') return;
+
+            it('should work for ' + JSON.stringify(rfcParsed[p].tokens), function () {
+                pointer.remove(rfcExample, immutable(rfcParsed[p].tokens));
+                expect(function() {
+                    pointer.get(rfcExample, immutable(rfcParsed[p].tokens));
+                }).to.throw(Error);
+            });
         });
+
+        it('should work for ["foo","0"]', function () {
+            var p = immutable(['foo', '0']);
+            pointer.remove(rfcExample, p);
+            expect(pointer.get(rfcExample, p)).to.equal('baz');
+        });
+
+        it('should work for ["foo","1"]', function () {
+            var p = immutable(['foo', '1']);
+            pointer.remove(rfcExample, p);
+            expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
+        });
+
     });
 
     describe('#dict', function () {
