@@ -69,6 +69,10 @@ api.set = function set (obj, pointer, value) {
     var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer),
       nextTok = refTokens[0];
 
+    if (refTokens.length === 0) {
+      throw Error('Can not set the root object');
+    }
+
     for (var i = 0; i < refTokens.length - 1; ++i) {
         var tok = refTokens[i];
         if (tok === '-' && Array.isArray(obj)) {

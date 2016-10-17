@@ -101,6 +101,9 @@ describe('json-api', function () {
     });
 
     describe('#set', function () {
+        it('should throw when try to set the root object', function () {
+            expect(pointer.set.bind(pointer, {}, '', 'bla')).to.throw(Error);
+        });
 
         it('should set a value on an object with pointer', function () {
             var obj = {
