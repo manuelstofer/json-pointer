@@ -50,10 +50,11 @@ var obj = {};
 pointer.set(obj, '/example/bla', 'hello');
 ```
 
-
 ### .remove(object, pointer)
 
-Removes an attribute of object referenced by pointer.
+Removes an attribute of object or an item from array referenced by pointer.
+**Note**: Since `v0.6.0` this function handles arrays differently, see #23.
+In order to have previous behaviour you can simply replace `remove` with `delete`.
 
 ```Javascript
 var obj = {
@@ -61,8 +62,31 @@ var obj = {
 };
 pointer.remove(obj, '/example');
 // obj -> {}
+
+var array = ['foo', 'bar'];
+pointer.remove(array, '/0');
+// array -> ['bar']
 ```
 
+### .delete(object, pointer)
+
+Use JS `delete` operator on an attribute of object or an item from array referenced by pointer.
+
+```Javascript
+var obj = {
+    example: 'hello'
+};
+pointer.delete(obj, '/example');
+// obj -> {}
+
+var array = ['foo', 'bar'];
+pointer.delete(array, '/0');
+// array -> [,'bar']
+// array[0] -> undefined
+
+array = JSON.parse(JSON.stringify(array));
+// json -> [null, 'bar']
+```
 
 ### .dict(object)
 
