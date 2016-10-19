@@ -1,6 +1,7 @@
 # json-pointer
 
-[![Build Status](https://travis-ci.org/manuelstofer/json-pointer.png)](https://travis-ci.org/manuelstofer/json-pointer)
+[![Build Status](https://travis-ci.org/manuelstofer/json-pointer.png?branch=master)](https://travis-ci.org/manuelstofer/json-pointer)
+[![npm version](https://badge.fury.io/js/json-pointer.svg)](https://www.npmjs.com/package/json-pointer)
 
 Some utilities for JSON pointers described by RFC 6901
 
