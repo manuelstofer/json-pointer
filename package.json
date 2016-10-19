@@ -21,5 +21,15 @@
   },
   "scripts": {
     "test": "nyc make test"
+  },
+  "nyc": {
+    "exclude": [
+      "test",
+      "node_modules"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   }
 }

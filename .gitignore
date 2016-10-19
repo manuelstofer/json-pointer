@@ -2,3 +2,4 @@ node_modules
 components
 build
 .nyc_output
+coverage
