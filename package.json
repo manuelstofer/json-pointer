@@ -14,10 +14,22 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
+    "coveralls": "^2.11.14",
     "mocha": "^1.9.0",
+    "nyc": "^8.3.1",
     "seamless-immutable": "^5.1.1"
   },
   "scripts": {
-    "test": "make test"
+    "test": "nyc make test"
+  },
+  "nyc": {
+    "exclude": [
+      "test",
+      "node_modules"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   }
 }
