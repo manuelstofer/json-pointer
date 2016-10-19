@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/manuelstofer/json-pointer.png?branch=master)](https://travis-ci.org/manuelstofer/json-pointer)
 [![npm version](https://badge.fury.io/js/json-pointer.svg)](https://www.npmjs.com/package/json-pointer)
+[![Coverage Status](https://coveralls.io/repos/github/manuelstofer/json-pointer/badge.svg?branch=master&service=github)](https://coveralls.io/github/manuelstofer/json-pointer?branch=master)
 
 Some utilities for JSON pointers described by RFC 6901
 
