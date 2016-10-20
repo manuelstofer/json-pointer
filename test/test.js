@@ -225,6 +225,28 @@ describe('json-api', function () {
 
     });
 
+    describe('#delete', function () {
+        each(Object.keys(rfcValues), function (p) {
+            if (p === '') return;
+
+            it('should work for "' + p + '"', function () {
+                pointer.delete(rfcExample, p);
+                expect(pointer.get.bind(pointer, rfcExample, p)).to.throw(Error);
+            });
+        });
+
+        each(Object.keys(rfcParsed), function (p) {
+            if (p === '') return;
+
+            it('should work for ' + JSON.stringify(rfcParsed[p].tokens), function () {
+                pointer.delete(rfcExample, immutable(rfcParsed[p].tokens));
+                expect(function() {
+                    pointer.get(rfcExample, immutable(rfcParsed[p].tokens));
+                }).to.throw(Error);
+            });
+        });
+    });
+
     describe('#dict', function () {
 
         it('should return a dictionary (pointer -> value)', function () {

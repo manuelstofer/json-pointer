@@ -97,29 +97,50 @@ api.set = function set (obj, pointer, value) {
 };
 
 /**
- * Removes an attribute
+ * Removes an attribute or an item
  *
  * @param {Object} obj
  * @param {String|Array} pointer
  */
 api.remove = function (obj, pointer) {
     var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
-    var finalToken = refTokens[refTokens.length -1];
-    if (finalToken === undefined) {
-        throw new Error('Invalid JSON pointer for remove: "' + pointer + '"');
+    if (refTokens.length === 0) {
+        throw new Error('Can not remove the root object');
     }
 
-    var parent = api.get(obj, refTokens.slice(0, -1));
+    var finalToken = refTokens[refTokens.length -1],
+        parent = api.get(obj, refTokens.slice(0, -1));
+
     if (Array.isArray(parent)) {
-      var index = +finalToken;
-      if (finalToken === '' && isNaN(index)) {
-        throw new Error('Invalid array index: "' + finalToken + '"');
-      }
-
-      Array.prototype.splice.call(parent, index, 1);
+        var index = +finalToken;
+        if (finalToken === '' && isNaN(index)) {
+            throw new Error('Invalid array index: "' + finalToken + '"');
+        }
+        Array.prototype.splice.call(parent, index, 1);
     } else {
-      delete parent[finalToken];
+        delete parent[finalToken];
     }
+
+    return this;
+};
+
+/**
+ * Use JS 'delete' operator on an attribute or an item
+ *
+ * @param {Object} obj
+ * @param {String|Array} pointer
+ */
+api.delete = function (obj, pointer) {
+    var refTokens = Array.isArray(pointer) ? pointer : api.parse(pointer);
+    if (refTokens.length === 0) {
+        throw new Error('Can not remove the root object');
+    }
+
+    var finalToken = refTokens[refTokens.length -1],
+        parent = api.get(obj, refTokens.slice(0, -1));
+
+    delete parent[finalToken];
+    return this;
 };
 
 /**
