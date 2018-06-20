@@ -199,7 +199,7 @@ api.escape = function escape (str) {
  * @returns {string}
  */
 api.unescape = function unescape (str) {
-    return str.replace(/~1/g, '/').replace(/~0/g, '~');
+    return decodeURIComponent(str.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
 /**
