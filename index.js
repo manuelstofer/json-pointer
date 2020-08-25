@@ -75,6 +75,9 @@ api.set = function set (obj, pointer, value) {
 
     for (var i = 0; i < refTokens.length - 1; ++i) {
         var tok = refTokens[i];
+        if (tok === "__proto__" || tok === "constructor" || tok === "prototype") {
+            continue
+        }
         if (tok === '-' && Array.isArray(obj)) {
           tok = obj.length;
         }
