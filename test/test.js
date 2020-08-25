@@ -436,4 +436,31 @@ describe('convenience api wrapper', function() {
         objPointer.get(immutable(['oo-style'])).should.equal('bla');
         objPointer.get(immutable(['example', '0'])).should.equal('bla2');
     });
+
+    it('should not set __proto__', function () {
+        var obj = {}, objPointer = pointer(obj);
+        expect(obj.polluted).to.be.undefined();
+        objPointer.set('/__proto__/polluted', true);
+        expect(obj.polluted).to.be.undefined();
+        var obj2 = {};
+        expect(obj2.polluted).to.be.undefined();
+    });
+
+    it('should not set prototype', function () {
+        var obj = {}, objPointer = pointer(obj);
+        expect(obj.polluted).to.be.undefined();
+        objPointer.set('/prototype/polluted', true);
+        expect(obj.polluted).to.be.undefined();
+        var obj2 = {};
+        expect(obj2.polluted).to.be.undefined();
+    });
+
+    it('should not set constructor', function () {
+        var obj = {}, objPointer = pointer(obj);
+        expect(obj.polluted).to.be.undefined();
+        objPointer.set('/constructor/prototype/polluted', true);
+        expect(obj.polluted).to.be.undefined();
+        var obj2 = {};
+        expect(obj2.polluted).to.be.undefined();
+    });
 });
