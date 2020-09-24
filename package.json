@@ -1,8 +1,8 @@
 {
   "name": "json-pointer",
   "description": "Some utilities for JSON pointers described by RFC 6901",
-  "version": "0.6.0",
-  "author": "Manuel Stofer <manuel@takimata.ch>",
+  "version": "0.6.1",
+  "author": "Manuel Stofer <manuel@smallpdf.com>",
   "license": "MIT",
   "dependencies": {
     "foreach": "^2.0.4"
