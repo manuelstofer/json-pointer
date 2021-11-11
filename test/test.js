@@ -446,6 +446,15 @@ describe('convenience api wrapper', function() {
         expect(obj2.polluted).to.be.undefined();
     });
 
+    it('should not set __proto__ (array)', function () {
+        var obj = {}, objPointer = pointer(obj);
+        expect(obj.polluted).to.be.undefined();
+        objPointer.set([['__proto__'], 'polluted'], true);
+        expect(obj.polluted).to.be.undefined();
+        var obj2 = {};
+        expect(obj2.polluted).to.be.undefined();
+    });
+
     it('should not set prototype', function () {
         var obj = {}, objPointer = pointer(obj);
         expect(obj.polluted).to.be.undefined();
