@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git://github.com/manuelstofer/json-pointer.git"
   },
+  "main": "index.js",
   "devDependencies": {
     "chai": "^1.9.1",
     "coveralls": "^2.11.14",
