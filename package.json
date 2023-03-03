@@ -14,9 +14,9 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "coveralls": "^2.11.14",
+    "coveralls": "^3.1.1",
     "mocha": "^1.9.0",
-    "nyc": "^8.3.1",
+    "nyc": "^15.1.0",
     "seamless-immutable": "^5.1.1"
   },
   "scripts": {
